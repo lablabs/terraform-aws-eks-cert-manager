@@ -1,0 +1,33 @@
+{{- if  .Values.route53.enabled }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .Values.route53.name }}
+  labels:
+    app: {{ include "defaultClusterIssuer.name" . }}
+    app.kubernetes.io/name: {{ include "defaultClusterIssuer.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: "clusterIssuer"
+    helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+spec:
+  acme:
+    {{- toYaml .Values.route53.acme | nindent 4 }}
+    solvers:
+      - dns01:
+          route53:
+            {{- if .Values.route53.region }}
+            region: {{ .Values.route53.region }}
+            {{- end }}
+            {{- if .Values.route53.hostedZoneID }}
+            hostedZoneID: {{ .Values.route53.hostedZoneID }}
+            {{- end }}
+            {{- if .Values.route53.roleArn }}
+            role: {{ .Values.route53.roleArn }}
+            {{- end }}
+        {{- with .Values.route53.dnsZones }}
+        selector:
+          dnsZones:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+{{- end }}

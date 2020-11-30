@@ -1,0 +1,16 @@
+nameOverride: ""
+fullnameOverride: ""
+
+route53:
+  enabled: true
+  name: "default"
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: user@example.com
+    privateKeySecretRef:
+      name: cluster-issuer-secret
+  region: "eu-west-1"
+  #hostedZoneID: DIKER8JEXAMPLE # optional, see policy above
+  #roleArn: arn:aws:iam::YYYYYYYYYYYY:role/dns-manager
+  dnsZones:
+    - "example.com"

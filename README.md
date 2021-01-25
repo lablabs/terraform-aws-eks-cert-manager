@@ -54,7 +54,7 @@ See [Basic example](examples/basic/README.md) for further information.
 | cluster\_issuer\_settings | Additional settings which will be passed to the Helm chart cluster\_issuer values, see https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml | `map(any)` | `{}` | no |
 | enabled | Variable indicating whether deployment is enabled | `bool` | `true` | no |
 | helm\_chart\_name | Helm chart name to be installed | `string` | `"cert-manager"` | no |
-| helm\_chart\_version | Version of the Helm chart | `string` | `"1.1.0"` | no |
+| helm\_chart\_version | Version of the Helm chart | `string` | `"v1.1.0"` | no |
 | helm\_release\_name | Helm release name | `string` | `"cert-manager"` | no |
 | helm\_repo\_url | Helm repository | `string` | `"https://charts.jetstack.io"` | no |
 | k8s\_create\_namespace | Whether to create k8s namespace with name defined by `k8s_namespace` | `bool` | `false` | no |

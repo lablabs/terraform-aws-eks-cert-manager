@@ -35,13 +35,29 @@ See [Basic example](examples/basic/README.md) for further information.
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.26, < 0.14.0 |
-| aws | >= 2.0, < 4.0 |
-| helm | >= 1.0, < 1.4.0 |
-| kubernetes | >=1.10.0 |
-| local | ~> 1.2 |
-| null | ~> 2.0 |
-| time | ~> 0.6 |
+| terraform | >= 0.13 |
+| aws | >= 2.0 |
+| helm | >= 1.0 |
+| kubernetes | >= 1.10 |
+| local | >= 1.3 |
+| null | >= 2.0 |
+| time | >= 0.6 |
+
+## Modules
+
+No Modules.
+
+## Resources
+
+| Name |
+|------|
+| [aws_iam_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) |
+| [aws_iam_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) |
+| [aws_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) |
+| [aws_iam_role_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) |
+| [aws_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) |
+| [helm_release](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) |
+| [time_sleep](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) |
 
 ## Inputs
 
@@ -54,7 +70,7 @@ See [Basic example](examples/basic/README.md) for further information.
 | cluster\_issuer\_settings | Additional settings which will be passed to the Helm chart cluster\_issuer values, see https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml | `map(any)` | `{}` | no |
 | enabled | Variable indicating whether deployment is enabled | `bool` | `true` | no |
 | helm\_chart\_name | Helm chart name to be installed | `string` | `"cert-manager"` | no |
-| helm\_chart\_version | Version of the Helm chart | `string` | `"1.1.0"` | no |
+| helm\_chart\_version | Version of the Helm chart | `string` | `"v1.1.0"` | no |
 | helm\_release\_name | Helm release name | `string` | `"cert-manager"` | no |
 | helm\_repo\_url | Helm repository | `string` | `"https://charts.jetstack.io"` | no |
 | k8s\_create\_namespace | Whether to create k8s namespace with name defined by `k8s_namespace` | `bool` | `false` | no |
@@ -67,7 +83,6 @@ See [Basic example](examples/basic/README.md) for further information.
 ## Outputs
 
 No output.
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Contributing and reporting issues

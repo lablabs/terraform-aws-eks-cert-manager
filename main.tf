@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 resource "helm_release" "cert_manager" {
-  count = var.enabled && ! var.cluster_issuer_enabled ? 1 : 0
+  count = var.enabled && !var.cluster_issuer_enabled ? 1 : 0
 
   repository       = var.helm_repo_url
   chart            = var.helm_chart_name

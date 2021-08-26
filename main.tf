@@ -37,7 +37,7 @@ data "utils_deep_merge_yaml" "values_cert_manager_cluster_issuers" {
   count = var.enabled ? 1 : 0
   input = compact([
     local.values_cert_manager_cluster_issuers,
-    var.values_cert_manager_cluster_issuers
+    var.values_cluster_issuers
   ])
 }
 

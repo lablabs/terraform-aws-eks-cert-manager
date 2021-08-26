@@ -62,6 +62,12 @@ variable "helm_repo_url" {
   description = "Helm repository"
 }
 
+variable "values" {
+  type        = string
+  default     = ""
+  description = "Additional values. Values will be merged, in order, as Helm does with multiple -f options"
+}
+
 # K8S
 
 variable "k8s_create_namespace" {
@@ -80,11 +86,6 @@ variable "k8s_service_account_name" {
   type        = string
   default     = "cert-manager"
   description = "The k8s cert-manager service account name"
-}
-
-variable "mod_dependency" {
-  default     = null
-  description = "Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable"
 }
 
 variable "settings" {

@@ -75,8 +75,6 @@ resource "aws_iam_policy" "cert_manager" {
   description = "Policy for cert-manager service"
 
   policy = local.assume_role ? data.aws_iam_policy_document.cert_manager_assume[0].json : data.aws_iam_policy_document.cert_manager[0].json
-
-  depends_on = [var.mod_dependency]
 }
 
 # Role
@@ -109,8 +107,6 @@ resource "aws_iam_role" "cert_manager" {
 
   name               = "${var.cluster_name}-cert-manager"
   assume_role_policy = data.aws_iam_policy_document.cert_manager_irsa[0].json
-
-  depends_on = [var.mod_dependency]
 }
 
 resource "aws_iam_role_policy_attachment" "cert_manager" {
@@ -118,6 +114,4 @@ resource "aws_iam_role_policy_attachment" "cert_manager" {
 
   role       = aws_iam_role.cert_manager[0].name
   policy_arn = aws_iam_policy.cert_manager[0].arn
-
-  depends_on = [var.mod_dependency]
 }

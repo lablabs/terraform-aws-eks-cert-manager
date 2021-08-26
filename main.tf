@@ -1,3 +1,46 @@
+locals {
+  values_cert_manager = yamlencode({
+    "installCRDs" : true,
+    "serviceAccount" : {
+      "name" : var.k8s_service_account_name
+      "annotations" : {
+        "eks.amazonaws.com/role-arn" : aws_iam_role.cert_manager[0].arn
+      }
+    }
+  })
+
+  values_cert_manager_issuer = yamlencode({
+    "installCRDs" : true
+    "serviceAccount" : {
+      "name" : var.k8s_service_account_name
+      "annotations" : {
+        "eks.amazonaws.com/role-arn" : aws_iam_role.cert_manager[0].arn
+      }
+    }
+    "ingressShim" : {
+      "defaultIsuserName" : "default"
+      "defaultIssuerKind" : "ClusterIssuer"
+      "defaultIssuerGroup" : "cert-manager.io"
+    }
+  })
+}
+
+data "utils_deep_merge_yaml" "values_cert_manager" {
+  count = var.enabled ? 1 : 0
+  input = compact([
+    local.values_cert_manager,
+    var.values
+  ])
+}
+
+data "utils_deep_merge_yaml" "values_cert_manager_issuer" {
+  count = var.enabled ? 1 : 0
+  input = compact([
+    local.values_cert_manager_issuer,
+    var.values
+  ])
+}
+
 data "aws_region" "current" {}
 
 resource "helm_release" "cert_manager" {
@@ -10,20 +53,9 @@ resource "helm_release" "cert_manager" {
   namespace        = var.k8s_namespace
   create_namespace = var.k8s_create_namespace
 
-  set {
-    name  = "installCRDs"
-    value = "true"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = var.k8s_service_account_name
-  }
-
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.cert_manager[0].arn
-  }
+  values = [
+    data.utils_deep_merge_yaml.values_cert_manager[0].output
+  ]
 
   dynamic "set" {
     for_each = var.settings
@@ -32,8 +64,6 @@ resource "helm_release" "cert_manager" {
       value = set.value
     }
   }
-
-  depends_on = [var.mod_dependency]
 }
 
 resource "helm_release" "cert_manager_default_cluster_issuer" {
@@ -47,35 +77,9 @@ resource "helm_release" "cert_manager_default_cluster_issuer" {
   create_namespace = var.k8s_create_namespace
   wait             = true
 
-  set {
-    name  = "installCRDs"
-    value = "true"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = var.k8s_service_account_name
-  }
-
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.cert_manager[0].arn
-  }
-
-  set {
-    name  = "ingressShim.defaultIssuerName"
-    value = "default"
-  }
-
-  set {
-    name  = "ingressShim.defaultIssuerKind"
-    value = "ClusterIssuer"
-  }
-
-  set {
-    name  = "ingressShim.defaultIssuerGroup"
-    value = "cert-manager.io"
-  }
+  values = [
+    data.utils_deep_merge_yaml.values_cert_manager_issuer[0].output
+  ]
 
   dynamic "set" {
     for_each = var.settings
@@ -84,8 +88,6 @@ resource "helm_release" "cert_manager_default_cluster_issuer" {
       value = set.value
     }
   }
-
-  depends_on = [var.mod_dependency]
 }
 
 resource "time_sleep" "default_cluster_issuer" {
@@ -114,7 +116,6 @@ resource "helm_release" "default_cluster_issuer" {
   }
 
   depends_on = [
-    var.mod_dependency,
     time_sleep.default_cluster_issuer[0]
   ]
 }

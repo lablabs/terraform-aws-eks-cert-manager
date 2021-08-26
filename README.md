@@ -61,7 +61,7 @@ No modules.
 | [aws_iam_policy_document.cert_manager_irsa](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [utils_deep_merge_yaml.values_cert_manager](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) | data source |
-| [utils_deep_merge_yaml.values_cert_manager_issuer](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) | data source |
+| [utils_deep_merge_yaml.values_cert_manager_cluster_issuers](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) | data source |
 
 ## Inputs
 
@@ -82,7 +82,8 @@ No modules.
 | <a name="input_k8s_service_account_name"></a> [k8s\_service\_account\_name](#input\_k8s\_service\_account\_name) | The k8s cert-manager service account name | `string` | `"cert-manager"` | no |
 | <a name="input_policy_allowed_zone_ids"></a> [policy\_allowed\_zone\_ids](#input\_policy\_allowed\_zone\_ids) | List of the Route53 zone ids for service account IAM role access | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | <a name="input_settings"></a> [settings](#input\_settings) | Additional settings which will be passed to the Helm chart values, see https://artifacthub.io/packages/helm/jetstack/cert-manager | `map(any)` | `{}` | no |
-| <a name="input_values"></a> [values](#input\_values) | Additional values. Values will be merged, in order, as Helm does with multiple -f options | `string` | `""` | no |
+| <a name="input_values_cert_manager"></a> [values\_cert\_manager](#input\_values\_cert\_manager) | Additional values for cert manager helm chart. Values will be merged, in order, as Helm does with multiple -f options | `string` | `""` | no |
+| <a name="input_values_cluster_issuers"></a> [values\_cluster\_issuers](#input\_values\_cluster\_issuers) | Additional values for cert manager cluster issuers helm chart. Values will be merged, in order, as Helm does with multiple -f options | `string` | `""` | no |
 
 ## Outputs
 

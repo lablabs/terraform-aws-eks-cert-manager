@@ -62,10 +62,16 @@ variable "helm_repo_url" {
   description = "Helm repository"
 }
 
-variable "values" {
+variable "values_cert_manager" {
   type        = string
   default     = ""
-  description = "Additional values. Values will be merged, in order, as Helm does with multiple -f options"
+  description = "Additional values for cert manager helm chart. Values will be merged, in order, as Helm does with multiple -f options"
+}
+
+variable "values_cluster_issuers" {
+  type        = string
+  default     = ""
+  description = "Additional values for cert manager cluster issuers helm chart. Values will be merged, in order, as Helm does with multiple -f options"
 }
 
 # K8S

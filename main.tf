@@ -9,7 +9,7 @@ locals {
     }
   })
 
-  values_cert_manager_issuer = yamlencode({
+  values_cert_manager_cluster_issuers = yamlencode({
     "installCRDs" : true
     "serviceAccount" : {
       "name" : var.k8s_service_account_name
@@ -29,15 +29,15 @@ data "utils_deep_merge_yaml" "values_cert_manager" {
   count = var.enabled ? 1 : 0
   input = compact([
     local.values_cert_manager,
-    var.values
+    var.values_cert_manager
   ])
 }
 
-data "utils_deep_merge_yaml" "values_cert_manager_issuer" {
+data "utils_deep_merge_yaml" "values_cert_manager_cluster_issuers" {
   count = var.enabled ? 1 : 0
   input = compact([
-    local.values_cert_manager_issuer,
-    var.values
+    local.values_cert_manager_cluster_issuers,
+    var.values_cert_manager_cluster_issuers
   ])
 }
 
@@ -78,7 +78,7 @@ resource "helm_release" "cert_manager_default_cluster_issuer" {
   wait             = true
 
   values = [
-    data.utils_deep_merge_yaml.values_cert_manager_issuer[0].output
+    data.utils_deep_merge_yaml.values_cert_manager_cluster_issuers[0].output
   ]
 
   dynamic "set" {

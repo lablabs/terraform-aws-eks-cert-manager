@@ -74,7 +74,7 @@ No modules.
 | <a name="input_cluster_issuer_settings"></a> [cluster\_issuer\_settings](#input\_cluster\_issuer\_settings) | Additional settings which will be passed to the Helm chart cluster\_issuer values, see https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml | `map(any)` | `{}` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Variable indicating whether deployment is enabled | `bool` | `true` | no |
 | <a name="input_helm_chart_name"></a> [helm\_chart\_name](#input\_helm\_chart\_name) | Helm chart name to be installed | `string` | `"cert-manager"` | no |
-| <a name="input_helm_chart_version"></a> [helm\_chart\_version](#input\_helm\_chart\_version) | Version of the Helm chart | `string` | `"v1.2.0"` | no |
+| <a name="input_helm_chart_version"></a> [helm\_chart\_version](#input\_helm\_chart\_version) | Version of the Helm chart | `string` | `"1.5.3"` | no |
 | <a name="input_helm_release_name"></a> [helm\_release\_name](#input\_helm\_release\_name) | Helm release name | `string` | `"cert-manager"` | no |
 | <a name="input_helm_repo_url"></a> [helm\_repo\_url](#input\_helm\_repo\_url) | Helm repository | `string` | `"https://charts.jetstack.io"` | no |
 | <a name="input_k8s_create_namespace"></a> [k8s\_create\_namespace](#input\_k8s\_create\_namespace) | Whether to create k8s namespace with name defined by `k8s_namespace` | `bool` | `false` | no |

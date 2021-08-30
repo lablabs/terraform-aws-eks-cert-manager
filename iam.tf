@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "cert_manager_assume" {
     ]
 
     resources = [
-      var.cluster_issuer_settings["route53.roleArn"]
+      var.k8s_assume_role_arn
     ]
   }
 }

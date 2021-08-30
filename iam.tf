@@ -1,13 +1,9 @@
-# aws.assumeRoleArn
-
 locals {
-  assume_role = length(try(var.cluster_issuer_settings["route53.roleArn"], "")) > 0 ? true : false
+  assume_role = length(var.k8s_assume_role_arn) > 0 ? true : false
 }
 
-### iam ###
-# Policy
 data "aws_iam_policy_document" "cert_manager" {
-  count = var.enabled && !local.assume_role ? 1 : 0
+  count = local.k8s_irsa_role_create && !local.assume_role ? 1 : 0
 
   statement {
     sid = "ChangeResourceRecordSets"
@@ -49,7 +45,7 @@ data "aws_iam_policy_document" "cert_manager" {
 }
 
 data "aws_iam_policy_document" "cert_manager_assume" {
-  count = var.enabled && local.assume_role ? 1 : 0
+  count = local.k8s_irsa_role_create && local.assume_role ? 1 : 0
 
   statement {
     sid = "AllowAssumeCertManagerRole"
@@ -68,7 +64,7 @@ data "aws_iam_policy_document" "cert_manager_assume" {
 
 
 resource "aws_iam_policy" "cert_manager" {
-  count = var.enabled ? 1 : 0
+  count = local.k8s_irsa_role_create ? 1 : 0
 
   name        = "${var.cluster_name}-cert-manager"
   path        = "/"
@@ -79,7 +75,7 @@ resource "aws_iam_policy" "cert_manager" {
 
 # Role
 data "aws_iam_policy_document" "cert_manager_irsa" {
-  count = var.enabled ? 1 : 0
+  count = local.k8s_irsa_role_create ? 1 : 0
 
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -103,14 +99,14 @@ data "aws_iam_policy_document" "cert_manager_irsa" {
 }
 
 resource "aws_iam_role" "cert_manager" {
-  count = var.enabled ? 1 : 0
+  count = local.k8s_irsa_role_create ? 1 : 0
 
   name               = "${var.cluster_name}-cert-manager"
   assume_role_policy = data.aws_iam_policy_document.cert_manager_irsa[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "cert_manager" {
-  count = var.enabled ? 1 : 0
+  count = local.k8s_irsa_role_create ? 1 : 0
 
   role       = aws_iam_role.cert_manager[0].name
   policy_arn = aws_iam_policy.cert_manager[0].arn

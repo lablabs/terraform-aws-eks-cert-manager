@@ -12,9 +12,9 @@ No requirements.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cert-manager"></a> [cert-manager](#module\_cert-manager) | ../../ | n/a |
-| <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | cloudposse/eks-cluster/aws | n/a |
-| <a name="module_eks_workers"></a> [eks\_workers](#module\_eks\_workers) | cloudposse/eks-workers/aws | n/a |
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | n/a |
+| <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | cloudposse/eks-cluster/aws | 0.43.2 |
+| <a name="module_eks_node_group"></a> [eks\_node\_group](#module\_eks\_node\_group) | cloudposse/eks-node-group/aws | 0.25.0 |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.6.0 |
 
 ## Resources
 

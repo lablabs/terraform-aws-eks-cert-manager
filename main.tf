@@ -30,21 +30,13 @@ data "utils_deep_merge_yaml" "values" {
   count = var.enabled ? 1 : 0
   input = compact([
     local.values,
+    var.cluster_issuer_enabled ? local.cluster_issuers_values : "",
     var.values
   ])
 }
 
-data "utils_deep_merge_yaml" "cluster_issuers_values" {
-  count = var.enabled ? 1 : 0
-  input = compact([
-    local.values,
-    local.cluster_issuers_values,
-    var.cluster_issuers_values
-  ])
-}
-
 resource "helm_release" "cert_manager" {
-  count = var.enabled && !var.cluster_issuer_enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
 
   chart            = var.helm_chart_name
   create_namespace = var.helm_create_namespace
@@ -66,37 +58,13 @@ resource "helm_release" "cert_manager" {
   }
 }
 
-resource "helm_release" "cert_manager_default_cluster_issuer" {
-  count = var.enabled && var.cluster_issuer_enabled ? 1 : 0
-
-  chart            = var.helm_chart_name
-  create_namespace = var.helm_create_namespace
-  namespace        = var.k8s_namespace
-  name             = var.helm_release_name
-  version          = var.helm_chart_version
-  repository       = var.helm_repo_url
-  wait             = true
-
-  values = [
-    data.utils_deep_merge_yaml.cluster_issuers_values[0].output
-  ]
-
-  dynamic "set" {
-    for_each = var.settings
-    content {
-      name  = set.key
-      value = set.value
-    }
-  }
-}
-
 resource "time_sleep" "default_cluster_issuer" {
   count = var.enabled && var.cluster_issuer_enabled ? 1 : 0
 
   create_duration = "30s"
 
   depends_on = [
-    helm_release.cert_manager_default_cluster_issuer
+    helm_release.cert_manager
   ]
 }
 
@@ -106,6 +74,10 @@ resource "helm_release" "default_cluster_issuer" {
   chart     = "${path.module}/helm/defaultClusterIssuer"
   name      = "cert-manger-cluster-issuer"
   namespace = var.k8s_namespace
+
+  values = [
+    var.cluster_issuers_values
+  ]
 
   dynamic "set" {
     for_each = var.cluster_issuer_settings

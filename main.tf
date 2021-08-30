@@ -22,6 +22,12 @@ locals {
       "defaultIssuerGroup" : "cert-manager.io"
     }
   })
+
+  default_cluster_issuer_values = yamlencode({
+    "route53" : {
+      "roleArn" : local.assume_role ? var.k8s_assume_role_arn : ""
+    }
+  })
 }
 
 data "aws_region" "current" {}
@@ -34,6 +40,15 @@ data "utils_deep_merge_yaml" "values" {
     var.values
   ])
 }
+
+data "utils_deep_merge_yaml" "default_cluster_issuer_values" {
+  count = var.enabled ? 1 : 0
+  input = compact([
+    local.default_cluster_issuer_values,
+    var.cluster_issuers_values
+  ])
+}
+
 
 resource "helm_release" "cert_manager" {
   count = var.enabled ? 1 : 0
@@ -76,7 +91,7 @@ resource "helm_release" "default_cluster_issuer" {
   namespace = var.k8s_namespace
 
   values = [
-    var.cluster_issuers_values
+    data.utils_deep_merge_yaml.default_cluster_issuer_values[0].output
   ]
 
   dynamic "set" {

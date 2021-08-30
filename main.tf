@@ -1,81 +1,68 @@
-data "aws_region" "current" {}
+locals {
+  k8s_irsa_role_create = var.enabled && var.k8s_rbac_create && var.k8s_service_account_create && var.k8s_irsa_role_create
 
-resource "helm_release" "cert_manager" {
-  count = var.enabled && !var.cluster_issuer_enabled ? 1 : 0
-
-  repository       = var.helm_repo_url
-  chart            = var.helm_chart_name
-  version          = var.helm_chart_version
-  name             = var.helm_release_name
-  namespace        = var.k8s_namespace
-  create_namespace = var.k8s_create_namespace
-
-  set {
-    name  = "installCRDs"
-    value = "true"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = var.k8s_service_account_name
-  }
-
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.cert_manager[0].arn
-  }
-
-  dynamic "set" {
-    for_each = var.settings
-    content {
-      name  = set.key
-      value = set.value
+  values = yamlencode({
+    "installCRDs" : true,
+    "rbac" : {
+      "create" : var.k8s_rbac_create
     }
-  }
+    "serviceAccount" : {
+      "create" : var.k8s_service_account_create
+      "name" : var.k8s_service_account_name
+      "annotations" : {
+        "eks.amazonaws.com/role-arn" : local.k8s_irsa_role_create ? aws_iam_role.cert_manager[0].arn : ""
+      }
+    }
+  })
 
-  depends_on = [var.mod_dependency]
+  cluster_issuers_values = yamlencode({
+    "ingressShim" : {
+      "defaultIsuserName" : "default"
+      "defaultIssuerKind" : "ClusterIssuer"
+      "defaultIssuerGroup" : "cert-manager.io"
+    }
+  })
+
+  default_cluster_issuer_values = yamlencode({
+    "route53" : {
+      "roleArn" : local.assume_role ? var.k8s_assume_role_arn : ""
+    }
+  })
 }
 
-resource "helm_release" "cert_manager_default_cluster_issuer" {
-  count = var.enabled && var.cluster_issuer_enabled ? 1 : 0
+data "aws_region" "current" {}
 
-  repository       = var.helm_repo_url
+data "utils_deep_merge_yaml" "values" {
+  count = var.enabled ? 1 : 0
+  input = compact([
+    local.values,
+    var.cluster_issuer_enabled ? local.cluster_issuers_values : "",
+    var.values
+  ])
+}
+
+data "utils_deep_merge_yaml" "default_cluster_issuer_values" {
+  count = var.enabled ? 1 : 0
+  input = compact([
+    local.default_cluster_issuer_values,
+    var.cluster_issuers_values
+  ])
+}
+
+
+resource "helm_release" "cert_manager" {
+  count = var.enabled ? 1 : 0
+
   chart            = var.helm_chart_name
-  version          = var.helm_chart_version
-  name             = var.helm_release_name
+  create_namespace = var.helm_create_namespace
   namespace        = var.k8s_namespace
-  create_namespace = var.k8s_create_namespace
-  wait             = true
+  name             = var.helm_release_name
+  version          = var.helm_chart_version
+  repository       = var.helm_repo_url
 
-  set {
-    name  = "installCRDs"
-    value = "true"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = var.k8s_service_account_name
-  }
-
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.cert_manager[0].arn
-  }
-
-  set {
-    name  = "ingressShim.defaultIssuerName"
-    value = "default"
-  }
-
-  set {
-    name  = "ingressShim.defaultIssuerKind"
-    value = "ClusterIssuer"
-  }
-
-  set {
-    name  = "ingressShim.defaultIssuerGroup"
-    value = "cert-manager.io"
-  }
+  values = [
+    data.utils_deep_merge_yaml.values[0].output
+  ]
 
   dynamic "set" {
     for_each = var.settings
@@ -84,8 +71,6 @@ resource "helm_release" "cert_manager_default_cluster_issuer" {
       value = set.value
     }
   }
-
-  depends_on = [var.mod_dependency]
 }
 
 resource "time_sleep" "default_cluster_issuer" {
@@ -94,7 +79,7 @@ resource "time_sleep" "default_cluster_issuer" {
   create_duration = "30s"
 
   depends_on = [
-    helm_release.cert_manager_default_cluster_issuer
+    helm_release.cert_manager
   ]
 }
 
@@ -105,6 +90,10 @@ resource "helm_release" "default_cluster_issuer" {
   name      = "cert-manger-cluster-issuer"
   namespace = var.k8s_namespace
 
+  values = [
+    data.utils_deep_merge_yaml.default_cluster_issuer_values[0].output
+  ]
+
   dynamic "set" {
     for_each = var.cluster_issuer_settings
     content {
@@ -114,7 +103,6 @@ resource "helm_release" "default_cluster_issuer" {
   }
 
   depends_on = [
-    var.mod_dependency,
     time_sleep.default_cluster_issuer[0]
   ]
 }

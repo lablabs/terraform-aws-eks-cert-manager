@@ -62,7 +62,6 @@ data "aws_iam_policy_document" "cert_manager_assume" {
   }
 }
 
-
 resource "aws_iam_policy" "cert_manager" {
   count = local.k8s_irsa_role_create ? 1 : 0
 
@@ -73,7 +72,6 @@ resource "aws_iam_policy" "cert_manager" {
   policy = local.assume_role ? data.aws_iam_policy_document.cert_manager_assume[0].json : data.aws_iam_policy_document.cert_manager[0].json
 }
 
-# Role
 data "aws_iam_policy_document" "cert_manager_irsa" {
   count = local.k8s_irsa_role_create ? 1 : 0
 

@@ -51,7 +51,7 @@ data "utils_deep_merge_yaml" "default_cluster_issuer_values" {
 
 
 resource "helm_release" "cert_manager" {
-  count = var.enabled ? 1 : 0
+  count = var.enabled && !var.argo_application_enabled ? 1 : 0
 
   chart            = var.helm_chart_name
   create_namespace = var.helm_create_namespace

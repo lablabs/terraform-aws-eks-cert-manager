@@ -72,7 +72,7 @@ No modules.
 | [utils_deep_merge_yaml.values](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) | data source |
 
 ## Inputs
-
+as
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_identity_oidc_issuer"></a> [cluster\_identity\_oidc\_issuer](#input\_cluster\_identity\_oidc\_issuer) | The OIDC Identity issuer for the cluster | `string` | n/a | yes |
@@ -87,7 +87,7 @@ No modules.
 | <a name="input_argo_project"></a> [argo\_project](#input\_argo\_project) | ArgoCD Application project | `string` | `"default"` | no |
 | <a name="input_argo_sync_policy"></a> [argo\_sync\_policy](#input\_argo\_sync\_policy) | ArgoCD syncPolicy manifest parameter | `map` | `{}` | no |
 | <a name="input_cluster_issuer_enabled"></a> [cluster\_issuer\_enabled](#input\_cluster\_issuer\_enabled) | Variable indicating whether default ClusterIssuer CRD is enabled | `bool` | `false` | no |
-| <a name="input_cluster_issuer_settings"></a> [cluster\_issuer\_settings](#input\_cluster\_issuer\_settings) | Additional settings which will be passed to the Helm chart cluster\_issuer values, see https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml | `map(any)` | `{}` | no |
+| <a name="input_cluster_issuer_settings"></a> [cluster\_issuer\_settings](#input\_cluster\_issuer\_settings) | Additional settings which will be passed to the Helm chart cluster\_issuer values, see https://github.com/lablabs/terraform-aws-eks-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml | `map(any)` | `{}` | no |
 | <a name="input_cluster_issuers_values"></a> [cluster\_issuers\_values](#input\_cluster\_issuers\_values) | Additional values for cert manager cluster issuers helm chart. Values will be merged, in order, as Helm does with multiple -f options | `string` | `""` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Variable indicating whether deployment is enabled | `bool` | `true` | no |
 | <a name="input_helm_chart_name"></a> [helm\_chart\_name](#input\_helm\_chart\_name) | Helm chart name to be installed | `string` | `"cert-manager"` | no |

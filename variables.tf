@@ -99,7 +99,7 @@ variable "settings" {
 variable "cluster_issuer_settings" {
   type        = map(any)
   default     = {}
-  description = "Additional settings which will be passed to the Helm chart cluster_issuer values, see https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml"
+  description = "Additional settings which will be passed to the Helm chart cluster_issuer values, see https://github.com/lablabs/terraform-aws-eks-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml"
 }
 
 variable "values" {

@@ -87,7 +87,7 @@ resource "helm_release" "default_cluster_issuer" {
   count = var.enabled && var.cluster_issuer_enabled ? 1 : 0
 
   chart     = "${path.module}/helm/defaultClusterIssuer"
-  name      = "cert-manger-cluster-issuer"
+  name      = "${var.helm_release_name}-cluster-issuer"
   namespace = var.k8s_namespace
 
   values = [

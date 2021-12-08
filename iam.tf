@@ -65,7 +65,7 @@ data "aws_iam_policy_document" "cert_manager_assume" {
 resource "aws_iam_policy" "cert_manager" {
   count = local.k8s_irsa_role_create ? 1 : 0
 
-  name        = "${var.cluster_name}-cert-manager"
+  name        = "${var.k8s_irsa_role_name_prefix}-${var.helm_chart_name}"
   path        = "/"
   description = "Policy for cert-manager service"
 
@@ -99,7 +99,7 @@ data "aws_iam_policy_document" "cert_manager_irsa" {
 resource "aws_iam_role" "cert_manager" {
   count = local.k8s_irsa_role_create ? 1 : 0
 
-  name               = "${var.cluster_name}-cert-manager"
+  name               = "${var.k8s_irsa_role_name_prefix}-${var.helm_chart_name}"
   assume_role_policy = data.aws_iam_policy_document.cert_manager_irsa[0].json
 }
 

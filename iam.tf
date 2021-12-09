@@ -1,78 +1,82 @@
 locals {
-  assume_role = length(var.k8s_assume_role_arn) > 0 ? true : false
+  k8s_irsa_role_create = var.enabled && var.k8s_rbac_create && var.k8s_service_account_create && var.k8s_irsa_role_create
 }
 
-data "aws_iam_policy_document" "cert_manager" {
-  count = local.k8s_irsa_role_create && !local.assume_role ? 1 : 0
-
-  statement {
-    sid = "ChangeResourceRecordSets"
-
-    actions = [
-      "route53:ChangeResourceRecordSets",
-    ]
-
-    resources = [for id in var.policy_allowed_zone_ids : "arn:aws:route53:::hostedzone/${id}"]
-
-    effect = "Allow"
-  }
-
-  statement {
-    sid = "ListResourceRecordSets"
-
-    actions = [
-      "route53:ListHostedZones",
-      "route53:ListResourceRecordSets",
-      "route53:ListTagsForResource",
-      "route53:ListHostedZonesByName"
-    ]
-
-    resources = [
-      "*",
-    ]
-
-    effect = "Allow"
-  }
-
-  statement {
-    sid = "GetBatchChangeStatus"
-    actions = [
-      "route53:GetChange"
-    ]
-
-    resources = ["*"]
-  }
-}
-
-data "aws_iam_policy_document" "cert_manager_assume" {
-  count = local.k8s_irsa_role_create && local.assume_role ? 1 : 0
-
-  statement {
-    sid = "AllowAssumeCertManagerRole"
-
-    effect = "Allow"
-
-    actions = [
-      "sts:AssumeRole"
-    ]
-
-    resources = [
-      var.k8s_assume_role_arn
-    ]
-  }
-}
-
-resource "aws_iam_policy" "cert_manager" {
+data "aws_iam_policy_document" "this" {
   count = local.k8s_irsa_role_create ? 1 : 0
 
-  name        = "${var.cluster_name}-cert-manager"
-  path        = "/"
-  description = "Policy for cert-manager service"
+  dynamic "statement" {
+    for_each = var.k8s_irsa_policy_enabled ? toset(["true"]) : []
+    content {
+      sid    = "ChangeResourceRecordSets"
+      effect = "Allow"
+      actions = [
+        "route53:ChangeResourceRecordSets",
+      ]
+      resources = formatlist(
+        "arn:aws:route53:::hostedzone/%s",
+        var.policy_allowed_zone_ids
+      )
 
-  policy = local.assume_role ? data.aws_iam_policy_document.cert_manager_assume[0].json : data.aws_iam_policy_document.cert_manager[0].json
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.k8s_irsa_policy_enabled ? toset(["true"]) : []
+    content {
+      sid    = "ListResourceRecordSets"
+      effect = "Allow"
+      actions = [
+        "route53:ListHostedZones",
+        "route53:ListResourceRecordSets",
+        "route53:ListTagsForResource",
+        "route53:ListHostedZonesByName"
+      ]
+      resources = [
+        "*"
+      ]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.k8s_irsa_policy_enabled ? toset(["true"]) : []
+    content {
+      sid    = "GetBatchChangeStatus"
+      effect = "Allow"
+      actions = [
+        "route53:GetChange"
+      ]
+      resources = [
+        "*"
+      ]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.k8s_assume_role_enabled ? toset(["true"]) : []
+    content {
+      sid    = "AllowAssumeCertManagerRole"
+      effect = "Allow"
+      actions = [
+        "sts:AssumeRole"
+      ]
+      resources = var.k8s_assume_role_arns
+    }
+  }
 }
 
-data "aws_iam_policy_document" "cert_manager_irsa" {
+resource "aws_iam_policy" "this" {
+  count = local.k8s_irsa_role_create && (var.k8s_irsa_policy_enabled || var.k8s_irsa_policy_enabled) ? 1 : 0
+
+  name        = "${var.k8s_irsa_role_name_prefix}-${var.helm_release_name}"
+  path        = "/"
+  description = "Policy for cert-manager service"
+  policy      = data.aws_iam_policy_document.this[0].json
+
+  tags = var.tags
+}
+
+data "aws_iam_policy_document" "this_irsa" {
   count = local.k8s_irsa_role_create ? 1 : 0
 
   statement {
@@ -96,16 +100,25 @@ data "aws_iam_policy_document" "cert_manager_irsa" {
   }
 }
 
-resource "aws_iam_role" "cert_manager" {
+resource "aws_iam_role" "this" {
   count = local.k8s_irsa_role_create ? 1 : 0
 
-  name               = "${var.cluster_name}-cert-manager"
-  assume_role_policy = data.aws_iam_policy_document.cert_manager_irsa[0].json
+  name               = "${var.k8s_irsa_role_name_prefix}-${var.helm_release_name}"
+  assume_role_policy = data.aws_iam_policy_document.this_irsa[0].json
+
+  tags = var.tags
 }
 
-resource "aws_iam_role_policy_attachment" "cert_manager" {
+resource "aws_iam_role_policy_attachment" "this" {
   count = local.k8s_irsa_role_create ? 1 : 0
 
-  role       = aws_iam_role.cert_manager[0].name
-  policy_arn = aws_iam_policy.cert_manager[0].arn
+  role       = aws_iam_role.this[0].name
+  policy_arn = aws_iam_policy.this[0].arn
+}
+
+resource "aws_iam_role_policy_attachment" "this_additional" {
+  for_each = local.k8s_irsa_role_create ? var.k8s_irsa_additional_policies : {}
+
+  role       = aws_iam_role.this[0].name
+  policy_arn = each.value
 }

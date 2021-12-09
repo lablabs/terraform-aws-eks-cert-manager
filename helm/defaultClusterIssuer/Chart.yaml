@@ -2,7 +2,7 @@ apiVersion: v2
 name: defaultClusterIssuer
 description: Default Cert Manager Cluster Issuer
 type: application
-version: 0.0.1
+version: 0.1.0
 keywords:
   - defaultClusterIssuer
   - cert-manager

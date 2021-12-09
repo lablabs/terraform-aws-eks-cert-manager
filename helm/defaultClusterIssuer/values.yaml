@@ -2,15 +2,14 @@ nameOverride: ""
 fullnameOverride: ""
 
 route53:
-  enabled: true
-  name: "default"
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: default@example.com
-    privateKeySecretRef:
-      name: cluster-issuer-secret
-  region: "eu-central-1"
-  #hostedZoneID: DIKER8JEXAMPLE # optional, see policy above
-  #roleArn: arn:aws:iam::YYYYYYYYYYYY:role/dns-manager
-  dnsZones:
-    - "example.com"
+  default:
+    acme:
+      server: https://acme-v02.api.letsencrypt.org/directory
+      email: default@example.com
+      privateKeySecretRef:
+        name: cluster-issuer-secret
+    region: "eu-central-1"
+    #hostedZoneID: DIKER8JEXAMPLE # optional, see policy above
+    #roleArn: arn:aws:iam::YYYYYYYYYYYY:role/dns-manager
+    dnsZones:
+      - "example.com"

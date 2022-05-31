@@ -24,7 +24,7 @@ resource "helm_release" "this" {
 resource "time_sleep" "default_cluster_issuer" {
   count = var.enabled && var.cluster_issuer_enabled ? 1 : 0
 
-  create_duration = "60s"
+  create_duration = "120s"
 
   depends_on = [
     helm_release.this

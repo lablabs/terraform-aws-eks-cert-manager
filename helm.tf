@@ -21,16 +21,6 @@ resource "helm_release" "this" {
   }
 }
 
-resource "time_sleep" "default_cluster_issuer" {
-  count = var.enabled && var.cluster_issuer_enabled ? 1 : 0
-
-  create_duration = "120s"
-
-  depends_on = [
-    helm_release.this
-  ]
-}
-
 resource "helm_release" "default_cluster_issuer" {
   count = var.enabled && var.cluster_issuer_enabled ? 1 : 0
 
@@ -51,6 +41,6 @@ resource "helm_release" "default_cluster_issuer" {
   }
 
   depends_on = [
-    time_sleep.default_cluster_issuer[0]
+    helm_release.this
   ]
 }

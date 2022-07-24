@@ -15,7 +15,7 @@ locals {
 
   cluster_issuers_values = yamlencode({
     "ingressShim" : {
-      "defaultIsuserName" : "default"
+      "defaultIssuerName" : "default"
       "defaultIssuerKind" : "ClusterIssuer"
       "defaultIssuerGroup" : "cert-manager.io"
     }

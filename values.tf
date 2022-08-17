@@ -12,6 +12,14 @@ locals {
       }
     }
   })
+  # description for this map
+  cluster_issuers_values = yamlencode({
+    "ingressShim" : {
+      "defaultIssuerName" : "default"
+      "defaultIssuerKind" : "ClusterIssuer"
+      "defaultIssuerGroup" : "cert-manager.io"
+    }
+  })
 }
 
 data "utils_deep_merge_yaml" "values" {

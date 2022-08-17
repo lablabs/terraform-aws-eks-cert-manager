@@ -5,7 +5,7 @@ output "helm_release_metadata" {
 
 output "helm_release_application_metadata" {
   description = "Argo application helm release attributes"
-  value       = try(helm_release.argocd_application[0].metadata, {})
+  value       = try(helm_release.argo_application[0].metadata, {})
 }
 
 output "kubernetes_application_attributes" {
@@ -14,6 +14,6 @@ output "kubernetes_application_attributes" {
 }
 
 output "iam_role_attributes" {
-  description = "Prometheus IAM role atributes"
+  description = "Cert manager IAM role atributes"
   value       = try(aws_iam_role.this[0], {})
 }

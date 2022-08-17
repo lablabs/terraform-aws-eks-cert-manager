@@ -57,7 +57,6 @@ resource "helm_release" "default_cluster_issuer" {
 resource "kubernetes_manifest" "default_cluster_issuer_argo_application" {
   count = var.enabled && var.argo_enabled && !var.argo_helm_enabled && var.cluster_issuer_enabled ? 1 : 0
   manifest = merge(
-    local.default_cluster_issuer_argo_application_values,
     {
       "kind" = "Application"
       "metadata" = merge(
@@ -65,7 +64,8 @@ resource "kubernetes_manifest" "default_cluster_issuer_argo_application" {
         { "name" = "${var.helm_release_name}-default-cluster-issuer" },
         { "namespace" = var.argo_namespace },
       )
-    }
+    },
+    local.default_cluster_issuer_argo_application_values
   )
   depends_on = [
     kubernetes_manifest.this

@@ -12,7 +12,7 @@ locals {
       }
     }
   })
-  # description for this map
+  # info about default cluster issuer for cert manager chart
   cluster_issuers_values = yamlencode({
     "ingressShim" : {
       "defaultIssuerName" : "default"

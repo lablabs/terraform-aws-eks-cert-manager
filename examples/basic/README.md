@@ -5,7 +5,12 @@ The code in this example shows how to use the module with basic configuration an
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.19.0 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.6.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.11.0 |
 
 ## Modules
 
@@ -18,8 +23,9 @@ No requirements.
 | <a name="module_cert_manager_helm"></a> [cert\_manager\_helm](#module\_cert\_manager\_helm) | ../../ | n/a |
 | <a name="module_cert_manager_without_irsa_policy"></a> [cert\_manager\_without\_irsa\_policy](#module\_cert\_manager\_without\_irsa\_policy) | ../../ | n/a |
 | <a name="module_cert_manager_without_irsa_role"></a> [cert\_manager\_without\_irsa\_role](#module\_cert\_manager\_without\_irsa\_role) | ../../ | n/a |
-| <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | cloudposse/eks-cluster/aws | 0.44.0 |
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.11.0 |
+| <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | cloudposse/eks-cluster/aws | 2.3.0 |
+| <a name="module_eks_node_group"></a> [eks\_node\_group](#module\_eks\_node\_group) | cloudposse/eks-node-group/aws | 2.4.0 |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 4.0.0 |
 
 ## Resources
 

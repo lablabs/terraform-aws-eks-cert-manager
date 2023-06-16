@@ -34,7 +34,15 @@ locals {
           "email" : "xyz@lablabs.io"
           "server" : "https://acme-v02.api.letsencrypt.org/directory"
         }
-
+      }
+    }
+    "http" : {
+      "default-http" : {
+        "ingressClassName" : "nginx"
+        "acme" : {
+          "email" : "xyz@lablabs.io"
+          "server" : "https://acme-v02.api.letsencrypt.org/directory"
+        }
       }
     }
   })

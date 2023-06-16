@@ -19,8 +19,65 @@ spec:
     solvers:
       - http01:
           ingress:
-            {{- if .clusterIssuerValues.ingressClassName }}
-            ingressClassName: {{ .clusterIssuerValues.ingressClassName }}
+            {{- with .clusterIssuerValues.ingressClassName }}
+            ingressClassName: {{ . | quote }}
             {{- end }}
+            {{- with .clusterIssuerValues.class }}
+            class: {{ . | quote }}
+            {{- end }}
+            {{- with .clusterIssuerValues.ingressName }}
+            name: {{ . | quote }}
+            {{- end }}
+            {{- with .clusterIssuerValues.serviceType }}
+            serviceType: {{ . | quote }}
+            {{- end }}
+            podTemplate:
+              metadata:
+                labels:
+                  app: {{ include "defaultClusterIssuer.name" . }}
+                  app.kubernetes.io/name: {{ include "defaultClusterIssuer.name" . }}
+                  app.kubernetes.io/instance: {{ .Release.Name }}
+                  app.kubernetes.io/managed-by: {{ .Release.Service }}
+                  app.kubernetes.io/component: "clusterIssuer"
+                  helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+                  {{- with .clusterIssuerValues.podLabels }}
+                  {{- toYaml . | nindent 18 }}
+                  {{- end }}
+                {{- with .clusterIssuerValues.podAnnotations }}
+                annotations:
+                  {{- toYaml . | nindent 18 }}
+                {{- end }}
+              {{- with .clusterIssuerValues.podSpec }}
+              spec:
+                {{- with .nodeSelector }}
+                nodeSelector:
+                  {{- toYaml . | nindent 18 }}
+                {{- end }}
+                {{- with .affinity }}
+                affinity:
+                  {{- toYaml . | nindent 18 }}
+                {{- end }}
+                {{- with .tolerations }}
+                tolerations:
+                  {{- toYaml . | nindent 18 }}
+                {{- end }}
+              {{- end }}
+
+            ingressTemplate:
+              metadata:
+                labels:
+                  app: {{ include "defaultClusterIssuer.name" . }}
+                  app.kubernetes.io/name: {{ include "defaultClusterIssuer.name" . }}
+                  app.kubernetes.io/instance: {{ .Release.Name }}
+                  app.kubernetes.io/managed-by: {{ .Release.Service }}
+                  app.kubernetes.io/component: "clusterIssuer"
+                  helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+                  {{- with .clusterIssuerValues.ingressLabels }}
+                  {{- toYaml . | nindent 18 }}
+                  {{- end }}
+                {{- with .clusterIssuerValues.ingressAnnotations }}
+                annotations:
+                  {{- toYaml . | nindent 18 }}
+                {{- end }}
 {{- end }}
 {{- end }}

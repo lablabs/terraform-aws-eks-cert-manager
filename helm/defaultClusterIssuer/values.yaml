@@ -1,6 +1,8 @@
 nameOverride: ""
 fullnameOverride: ""
 
+commonLabels: {}
+
 route53:
   default:
     acme:

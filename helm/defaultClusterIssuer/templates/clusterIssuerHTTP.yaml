@@ -40,6 +40,9 @@ spec:
                   app.kubernetes.io/managed-by: {{ .Release.Service }}
                   app.kubernetes.io/component: "clusterIssuer"
                   helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+                  {{- with $.commonLabels }}
+                  {{- toYaml . | nindent 18 }}
+                  {{- end }}
                   {{- with .clusterIssuerValues.podLabels }}
                   {{- toYaml . | nindent 18 }}
                   {{- end }}
@@ -72,6 +75,9 @@ spec:
                   app.kubernetes.io/managed-by: {{ .Release.Service }}
                   app.kubernetes.io/component: "clusterIssuer"
                   helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+                  {{- with $.commonLabels }}
+                  {{- toYaml . | nindent 18 }}
+                  {{- end }}
                   {{- with .clusterIssuerValues.ingressLabels }}
                   {{- toYaml . | nindent 18 }}
                   {{- end }}

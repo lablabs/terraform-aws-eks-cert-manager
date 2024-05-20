@@ -437,3 +437,9 @@ variable "helm_postrender" {
   default     = {}
   description = "Value block with a path to a binary file to run after helm renders the manifest which can alter the manifest contents"
 }
+
+variable "manifest_target_revision" {
+  type        = string
+  default     = "main"
+  description = "Manifest target revision to deploy from"
+}

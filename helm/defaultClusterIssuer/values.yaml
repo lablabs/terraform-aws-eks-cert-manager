@@ -35,7 +35,7 @@ http:
     ingressLabels: {}
     ingressAnnotations: {}
 cloudflare:
-  cloudflare:
+  default-cloudflare:
     acme:
       server: https://acme-v02.api.letsencrypt.org/directory
       email: default@example.com

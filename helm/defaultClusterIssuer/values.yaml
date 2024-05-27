@@ -16,7 +16,7 @@ route53:
     dnsZones:
       - "example.com"
 http:
-  default-http:
+  http:
     acme:
       server: https://acme-v02.api.letsencrypt.org/directory
       email: default@example.com
@@ -34,3 +34,15 @@ http:
 
     ingressLabels: {}
     ingressAnnotations: {}
+cloudflare:
+  cloudflare:
+    acme:
+      server: https://acme-v02.api.letsencrypt.org/directory
+      email: default@example.com
+      privateKeySecretRef:
+        name: cluster-issuer-secret
+    apiTokenSecretRef:
+      name: cloudflare-api-token-secret
+      key: api-token
+    dnsZones:
+      - "example.com"

@@ -164,6 +164,30 @@ variable "argo_helm_enabled" {
   description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See Readme for more info"
 }
 
+variable "argo_helm_wait_timeout" {
+  type        = string
+  default     = "10m"
+  description = "Timeout for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_node_selector" {
+  type        = map(string)
+  default     = {}
+  description = "Node selector for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_tolerations" {
+  type        = list(any)
+  default     = []
+  description = "Tolerations for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_backoff_limit" {
+  type        = number
+  default     = 6
+  description = "Backoff limit for ArgoCD Application Helm release wait job"
+}
+
 variable "argo_destination_server" {
   type        = string
   default     = "https://kubernetes.default.svc"

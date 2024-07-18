@@ -1,3 +1,6 @@
+> [!CAUTION]
+> DEPRECATION NOTICE - `defaultClusterIssuer` helm chart will be discontinued on 1. November 2024. This deprecation will have impact on all existing installations prior to 2.0.0 release where `cluster_issuer_enabled = true`. In order to proceed using this module you have to upgrade to 2.X version.
+
 # AWS EKS Cert Manager Terraform module
 
 [<img src="https://lablabs.io/static/ll-logo.png" width=350px>](https://lablabs.io/)
@@ -185,7 +188,8 @@ No modules.
 | <a name="input_irsa_role_create"></a> [irsa\_role\_create](#input\_irsa\_role\_create) | Whether to create IRSA role and annotate service account | `bool` | `true` | no |
 | <a name="input_irsa_role_name_prefix"></a> [irsa\_role\_name\_prefix](#input\_irsa\_role\_name\_prefix) | The IRSA role name prefix for cert-manager | `string` | `"cert-manager-irsa"` | no |
 | <a name="input_irsa_tags"></a> [irsa\_tags](#input\_irsa\_tags) | IRSA resources tags | `map(string)` | `{}` | no |
-| <a name="input_manifest_target_revision"></a> [manifest\_target\_revision](#input\_manifest\_target\_revision) | Manifest target revision to deploy from | `string` | `"main"` | no |
+| <a name="input_manifest_target_path"></a> [manifest\_target\_path](#input\_manifest\_target\_path) | Manifest target path in projects repository | `string` | `"helm/cuslterIssuer"` | no |
+| <a name="input_manifest_target_revision"></a> [manifest\_target\_revision](#input\_manifest\_target\_revision) | Manifest target revision to deploy from | `string` | `"2.0.0"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The K8s namespace in which the cert manager will be installed | `string` | `"kube-system"` | no |
 | <a name="input_policy_allowed_zone_ids"></a> [policy\_allowed\_zone\_ids](#input\_policy\_allowed\_zone\_ids) | List of the Route53 zone ids for service account IAM role access | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | <a name="input_rbac_create"></a> [rbac\_create](#input\_rbac\_create) | Whether to create and use RBAC resources | `bool` | `true` | no |

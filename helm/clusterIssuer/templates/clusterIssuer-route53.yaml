@@ -1,0 +1,37 @@
+{{- $outer := . -}}
+{{- range $clusterIssuerName, $clusterIssuerValues := .Values.route53 }}
+{{- with (merge (dict "clusterIssuerName" $clusterIssuerName "clusterIssuerValues" $clusterIssuerValues) $outer) }}
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .clusterIssuerName }}
+  labels:
+    app: {{ include "defaultClusterIssuer.name" . }}
+    app.kubernetes.io/name: {{ include "defaultClusterIssuer.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: "clusterIssuer"
+    helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+spec:
+  acme:
+    {{- toYaml .clusterIssuerValues.acme | nindent 4 }}
+    solvers:
+      - dns01:
+          route53:
+            {{- if .clusterIssuerValues.region }}
+            region: {{ .clusterIssuerValues.region }}
+            {{- end }}
+            {{- if .clusterIssuerValues.hostedZoneID }}
+            hostedZoneID: {{ .clusterIssuerValues.hostedZoneID }}
+            {{- end }}
+            {{- if .clusterIssuerValues.roleArn }}
+            role: {{ .clusterIssuerValues.roleArn }}
+            {{- end }}
+        {{- with .clusterIssuerValues.dnsZones }}
+        selector:
+          dnsZones:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+{{- end }}
+{{- end }}

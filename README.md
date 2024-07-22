@@ -188,7 +188,7 @@ No modules.
 | <a name="input_irsa_role_create"></a> [irsa\_role\_create](#input\_irsa\_role\_create) | Whether to create IRSA role and annotate service account | `bool` | `true` | no |
 | <a name="input_irsa_role_name_prefix"></a> [irsa\_role\_name\_prefix](#input\_irsa\_role\_name\_prefix) | The IRSA role name prefix for cert-manager | `string` | `"cert-manager-irsa"` | no |
 | <a name="input_irsa_tags"></a> [irsa\_tags](#input\_irsa\_tags) | IRSA resources tags | `map(string)` | `{}` | no |
-| <a name="input_manifest_target_path"></a> [manifest\_target\_path](#input\_manifest\_target\_path) | Manifest target path in projects repository | `string` | `"helm/cuslterIssuer"` | no |
+| <a name="input_manifest_target_path"></a> [manifest\_target\_path](#input\_manifest\_target\_path) | Manifest target path in projects repository | `string` | `"helm/clusterIssuer"` | no |
 | <a name="input_manifest_target_revision"></a> [manifest\_target\_revision](#input\_manifest\_target\_revision) | Manifest target revision to deploy from | `string` | `"2.0.0"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The K8s namespace in which the cert manager will be installed | `string` | `"kube-system"` | no |
 | <a name="input_policy_allowed_zone_ids"></a> [policy\_allowed\_zone\_ids](#input\_policy\_allowed\_zone\_ids) | List of the Route53 zone ids for service account IAM role access | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |

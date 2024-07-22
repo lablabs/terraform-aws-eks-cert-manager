@@ -446,6 +446,6 @@ variable "manifest_target_revision" {
 
 variable "manifest_target_path" {
   type        = string
-  default     = "helm/cuslterIssuer"
+  default     = "helm/clusterIssuer"
   description = "Manifest target path in projects repository"
 }

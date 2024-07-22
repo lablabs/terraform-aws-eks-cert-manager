@@ -7,12 +7,12 @@ kind: ClusterIssuer
 metadata:
   name: {{ .clusterIssuerName }}
   labels:
-    app: {{ include "defaultClusterIssuer.name" . }}
-    app.kubernetes.io/name: {{ include "defaultClusterIssuer.name" . }}
+    app: {{ include "clusterIssuer.name" . }}
+    app.kubernetes.io/name: {{ include "clusterIssuer.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: "clusterIssuer"
-    helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+    helm.sh/chart: {{ include "clusterIssuer.chart" . }}
 spec:
   acme:
     {{- toYaml .clusterIssuerValues.acme | nindent 4 }}
@@ -34,12 +34,12 @@ spec:
             podTemplate:
               metadata:
                 labels:
-                  app: {{ include "defaultClusterIssuer.name" . }}
-                  app.kubernetes.io/name: {{ include "defaultClusterIssuer.name" . }}
+                  app: {{ include "clusterIssuer.name" . }}
+                  app.kubernetes.io/name: {{ include "clusterIssuer.name" . }}
                   app.kubernetes.io/instance: {{ .Release.Name }}
                   app.kubernetes.io/managed-by: {{ .Release.Service }}
                   app.kubernetes.io/component: "clusterIssuer"
-                  helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+                  helm.sh/chart: {{ include "clusterIssuer.chart" . }}
                   {{- with $.commonLabels }}
                   {{- toYaml . | nindent 18 }}
                   {{- end }}
@@ -69,12 +69,12 @@ spec:
             ingressTemplate:
               metadata:
                 labels:
-                  app: {{ include "defaultClusterIssuer.name" . }}
-                  app.kubernetes.io/name: {{ include "defaultClusterIssuer.name" . }}
+                  app: {{ include "clusterIssuer.name" . }}
+                  app.kubernetes.io/name: {{ include "clusterIssuer.name" . }}
                   app.kubernetes.io/instance: {{ .Release.Name }}
                   app.kubernetes.io/managed-by: {{ .Release.Service }}
                   app.kubernetes.io/component: "clusterIssuer"
-                  helm.sh/chart: {{ include "defaultClusterIssuer.chart" . }}
+                  helm.sh/chart: {{ include "clusterIssuer.chart" . }}
                   {{- with $.commonLabels }}
                   {{- toYaml . | nindent 18 }}
                   {{- end }}

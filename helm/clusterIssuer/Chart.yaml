@@ -1,14 +1,14 @@
 apiVersion: v2
-name: defaultClusterIssuer
+name: clusterIssuer
 description: Default Cert Manager Cluster Issuer
 type: application
 version: 0.1.0
 keywords:
-  - defaultClusterIssuer
+  - cluster-issuer
   - cert-manager
   - acme
 sources:
-  - https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/defaultClusterIssuer/values.yaml
+  - https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/clusterIssuer/values.yaml
 maintainers:
   - name: dojci
     email: martin.dojcak@lablabs.io

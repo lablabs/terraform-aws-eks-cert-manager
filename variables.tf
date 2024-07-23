@@ -440,7 +440,7 @@ variable "helm_postrender" {
 
 variable "manifest_target_revision" {
   type        = string
-  default     = "1.3.0" #FIXME: update revision before release
+  default     = "2.0.0" #FIXME: update revision before release
   description = "Manifest target revision to deploy from"
 }
 

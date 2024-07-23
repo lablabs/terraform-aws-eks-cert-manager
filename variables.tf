@@ -437,3 +437,15 @@ variable "helm_postrender" {
   default     = {}
   description = "Value block with a path to a binary file to run after helm renders the manifest which can alter the manifest contents"
 }
+
+variable "manifest_target_revision" {
+  type        = string
+  default     = "2.0.0" #FIXME: update revision before release
+  description = "Manifest target revision to deploy from"
+}
+
+variable "manifest_target_path" {
+  type        = string
+  default     = "helm/clusterIssuer"
+  description = "Manifest target path in projects repository"
+}

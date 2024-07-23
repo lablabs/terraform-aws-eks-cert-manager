@@ -5,8 +5,8 @@ locals {
       "project" : var.argo_project
       "source" : {
         "repoURL" : "https://github.com/lablabs/terraform-aws-eks-cert-manager.git"
-        "path" : "helm/defaultClusterIssuer"
-        "targetRevision" : "main"
+        "path" : var.manifest_target_path
+        "targetRevision" : var.manifest_target_revision
         "helm" : {
           "releaseName" : "${var.helm_release_name}-default-cluster-issuer"
           "parameters" : [for k, v in var.cluster_issuer_settings : tomap({ "forceString" : true, "name" : k, "value" : v })]

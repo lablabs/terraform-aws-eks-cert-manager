@@ -1,8 +1,10 @@
 locals {
   values = yamlencode({
     "installCRDs" : true,
-    "rbac" : {
-      "create" : var.rbac_create
+    "global" : {
+      "rbac" : {
+        "create" : var.rbac_create
+      }
     }
     "serviceAccount" : {
       "create" : var.service_account_create

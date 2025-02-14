@@ -1,6 +1,8 @@
 locals {
   values = yamlencode({
-    "installCRDs" : true,
+    "crds" : {
+      "enabled" : true
+    },
     "global" : {
       "rbac" : {
         "create" : var.rbac_create

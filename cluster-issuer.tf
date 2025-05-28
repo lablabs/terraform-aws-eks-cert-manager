@@ -20,7 +20,7 @@ module "cluster_issuer" {
 
   helm_enabled                    = var.cluster_issuer_helm_enabled != null ? var.cluster_issuer_helm_enabled : try(local.cluster_issuer.helm_enabled, null)
   helm_release_name               = local.cluster_issuer_name
-  helm_chart_name                 = var.cluster_issuer_helm_chart_name != null ? var.cluster_issuer_helm_chart_name : try(local.cluster_issuer.helm_chart_name, local.cluster_issuer.name)
+  helm_chart_name                 = var.cluster_issuer_helm_chart_name != null ? var.cluster_issuer_helm_chart_name : try(local.cluster_issuer.helm_chart_name, null)
   helm_chart_version              = var.cluster_issuer_helm_chart_version != null ? var.cluster_issuer_helm_chart_version : local.cluster_issuer.helm_chart_version
   helm_atomic                     = var.cluster_issuer_helm_atomic != null ? var.cluster_issuer_helm_atomic : try(local.cluster_issuer.helm_atomic, null)
   helm_cleanup_on_fail            = var.cluster_issuer_helm_cleanup_on_fail != null ? var.cluster_issuer_helm_cleanup_on_fail : try(local.cluster_issuer.helm_cleanup_on_fail, null)

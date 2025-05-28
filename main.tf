@@ -51,12 +51,11 @@ locals {
   cluster_issuer = {
     name = "cert-manager-cluster-issuer"
 
-    helm_chart_name    = null
-    helm_chart_version = var.manifest_target_revision
-    helm_repo_url      = "https://github.com/lablabs/terraform-aws-eks-cert-manager.git"
+    helm_chart_version = var.cluster_issuer_helm_chart_version != null ? var.cluster_issuer_helm_chart_version : var.manifest_target_revision
+    helm_repo_url      = var.cluster_issuer_helm_repo_url != null ? var.helm_repo_url : "https://github.com/lablabs/terraform-aws-eks-cert-manager.git"
     argo_enabled       = var.cluster_issuer_argo_enabled != null ? var.cluster_issuer_argo_enabled : try(module.addon.argo_enabled, true)
     argo_helm_enabled  = var.cluster_issuer_argo_helm_enabled != null ? var.cluster_issuer_argo_helm_enabled : try(module.addon.argo_helm_enabled, true)
-    argo_source_path   = var.manifest_target_path
+    argo_source_path   = var.cluster_issuer_argo_source_path != null ? var.cluster_issuer_argo_source_path : var.manifest_target_path
   }
 
   cluster_issuer_values = yamlencode({})

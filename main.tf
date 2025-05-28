@@ -26,7 +26,7 @@ locals {
   addon_values = yamlencode({
     crds = {
       enabled = var.crds_enabled
-    },
+    }
     global = {
       rbac = {
         create = module.addon-irsa[local.addon.name].rbac_create
@@ -39,7 +39,26 @@ locals {
         "eks.amazonaws.com/role-arn" = module.addon-irsa[local.addon.name].iam_role_attributes.arn
       } : tomap({})
     }
+    ingressShim = var.cluster_issuer_enabled ? {
+      defaultIssuerName  = "default"
+      defaultIssuerKind  = "ClusterIssuer"
+      defaultIssuerGroup = "cert-manager.io"
+    } : tomap({})
   })
 
   addon_depends_on = []
+
+  cluster_issuer = {
+    name = "cert-manager-cluster-issuer"
+
+    helm_chart_name             = "${path.module}/helm/clusterIssuer"
+    helm_chart_version          = "0.1.0"
+    argo_source_repo            = "https://github.com/lablabs/terraform-aws-eks-cert-manager.git"
+    argo_source_path            = var.manifest_target_path
+    argo_source_target_revision = var.manifest_target_revision
+  }
+
+  cluster_issuer_values = yamlencode({})
+
+  cluster_issuer_depends_on = [module.addon]
 }

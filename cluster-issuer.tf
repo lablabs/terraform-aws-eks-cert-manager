@@ -1,8 +1,8 @@
 locals {
   cluster_issuer_enabled = var.enabled && var.cluster_issuer_enabled
 
-  cluster_issuer_argo_source_type         = var.cluster_issuer_argo_source_type != null ? var.cluster_issuer_argo_source_type : try(local.cluster_issuer.argo_source_type, "helm")
-  cluster_issuer_argo_source_helm_enabled = local.cluster_issuer_argo_source_type == "helm"
+  cluster_issuer_argo_source_type         = var.cluster_issuer_argo_source_type != null ? var.cluster_issuer_argo_source_type : try(local.cluster_issuer.argo_source_type, "helm-directory")
+  cluster_issuer_argo_source_helm_enabled = local.cluster_issuer_argo_source_type == "helm-directory"
 
   cluster_issuer_argo_name         = var.cluster_issuer_argo_name != null ? var.cluster_issuer_argo_name : try(local.cluster_issuer.argo_name, local.cluster_issuer.name)
   cluster_issuer_helm_release_name = var.cluster_issuer_helm_release_name != null ? var.cluster_issuer_helm_release_name : try(local.cluster_issuer.helm_release_name, local.cluster_issuer.name)

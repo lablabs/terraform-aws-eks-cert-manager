@@ -52,7 +52,7 @@ See [basic example](examples/basic) for further information.
 |------|--------|---------|
 | <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.19 |
 | <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v0.0.19 |
-| <a name="module_cluster_issuer"></a> [cluster\_issuer](#module\_cluster\_issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.19 |
+| <a name="module_cluster-issuer"></a> [cluster-issuer](#module\_cluster-issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.19 |
 ## Resources
 
 | Name | Type |
@@ -232,7 +232,7 @@ See [basic example](examples/basic) for further information.
 |------|-------------|
 | <a name="output_addon"></a> [addon](#output\_addon) | The addon module outputs |
 | <a name="output_addon_irsa"></a> [addon\_irsa](#output\_addon\_irsa) | The addon IRSA module outputs |
-| <a name="output_cluster_issuer"></a> [cluster\_issuer](#output\_cluster\_issuer) | The cluster\_issuer module outputs |
+| <a name="output_cluster_issuer"></a> [cluster\_issuer](#output\_cluster\_issuer) | The cluster-issuer module outputs |
 ## Contributing and reporting issues
 
 Feel free to create an issue in this repository if you have questions, suggestions or feature requests.

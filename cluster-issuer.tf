@@ -10,13 +10,13 @@ locals {
   cluster_issuer_name = local.cluster_issuer_argo_source_helm_enabled ? local.cluster_issuer_helm_release_name : local.cluster_issuer_argo_name
 }
 
-module "cluster_issuer" {
+module "cluster-issuer" {
   source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.19"
 
   enabled = local.cluster_issuer_enabled
 
   # variable priority var.cluster_issuer_* (provided by the module user) > local.cluster_issuer.* (universal addon default override) > default (universal addon default)
-  namespace = local.addon_namespace # cluster_issuer are cluster-wide resources, but for a Helm release we need a namespace to be the same as the
+  namespace = local.addon_namespace # cluster_issuer are cluster-wide resources, but for a Helm release we need a namespace to be the same as the addons itself
 
   helm_enabled                    = var.cluster_issuer_helm_enabled != null ? var.cluster_issuer_helm_enabled : try(local.cluster_issuer.helm_enabled, null)
   helm_release_name               = local.cluster_issuer_name
@@ -100,6 +100,6 @@ data "utils_deep_merge_yaml" "cluster_issuer_values" {
 }
 
 output "cluster_issuer" {
-  description = "The cluster_issuer module outputs"
-  value       = module.cluster_issuer
+  description = "The cluster-issuer module outputs"
+  value       = module.cluster-issuer
 }

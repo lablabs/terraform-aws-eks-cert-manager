@@ -45,6 +45,24 @@ locals {
         }
       }
     }
+    "cloudflare" : {
+      "default-cloudflare" : {
+        "apiTokenSecretRef" : {
+          "name" : "add_your_name_here"
+          "key" : "add_you_token_here"
+        }
+        "acme" : {
+          "email" : "xyz@lablabs.io"
+          "server" : "https://acme-v02.api.letsencrypt.org/directory"
+          "privateKeySecretRef" : {
+            "name" : "add_secret_name_with_private_key"
+          }
+        }
+        "dnsZones" : [
+          "example.com"
+        ]
+      }
+    }
   })
 }
 

@@ -39,6 +39,21 @@ moved {
 }
 
 moved {
+  from = module.cluster_issuer.helm_release.argo_application
+  to   = module.cluster-issuer.helm_release.argo_application
+}
+
+moved {
+  from = module.cluster_issuer.kubernetes_manifest.this
+  to   = module.cluster-issuer.kubernetes_manifest.this
+}
+
+moved {
+  from = module.cluster_issuer.helm_release.default_cluster_issuer
+  to   = module.cluster-issuer.helm_release.this
+}
+
+moved {
   from = aws_iam_role.this
   to   = module.addon-irsa["cert-manager"].aws_iam_role.this
 }

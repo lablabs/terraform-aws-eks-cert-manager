@@ -12,7 +12,7 @@ locals {
       "runAsUser" : 1001
     }
   })
-  cluster_issuers_values = yamlencode({
+  cluster_issuer_values = yamlencode({
     "route53" : {
       "default" : {
         "region" : "eu-central-1"
@@ -43,6 +43,24 @@ locals {
           "email" : "xyz@lablabs.io"
           "server" : "https://acme-v02.api.letsencrypt.org/directory"
         }
+      }
+    }
+    "cloudflare" : {
+      "default-cloudflare" : {
+        "apiTokenSecretRef" : {
+          "name" : "add_your_name_here"
+          "key" : "add_you_token_here"
+        }
+        "acme" : {
+          "email" : "xyz@lablabs.io"
+          "server" : "https://acme-v02.api.letsencrypt.org/directory"
+          "privateKeySecretRef" : {
+            "name" : "add_secret_name_with_private_key"
+          }
+        }
+        "dnsZones" : [
+          "example.com"
+        ]
       }
     }
   })
@@ -102,7 +120,7 @@ module "cert_manager_helm" {
 
   cluster_issuer_enabled = true
   values                 = local.values
-  cluster_issuers_values = local.cluster_issuers_values
+  cluster_issuer_values  = local.cluster_issuer_values
 
   helm_wait_for_jobs = true
 }
@@ -122,7 +140,7 @@ module "cert_manager_argo_kubernetes" {
 
   cluster_issuer_enabled = true
   values                 = local.values
-  cluster_issuers_values = local.cluster_issuers_values
+  cluster_issuer_values  = local.cluster_issuer_values
 
   argo_kubernetes_manifest_wait_fields = {
     "status.sync.status" : "Synced"
@@ -151,7 +169,7 @@ module "cert_manager_argo_helm" {
 
   cluster_issuer_enabled = true
   values                 = local.values
-  cluster_issuers_values = local.cluster_issuers_values
+  cluster_issuer_values  = local.cluster_issuer_values
 
   argo_namespace = "argo"
   argo_sync_policy = {

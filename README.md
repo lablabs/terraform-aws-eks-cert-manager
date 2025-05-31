@@ -231,7 +231,7 @@ See [basic example](examples/basic) for further information.
 | Name | Description |
 |------|-------------|
 | <a name="output_addon"></a> [addon](#output\_addon) | The addon module outputs |
-| <a name="output_addon_irsa"></a> [addon\_irsa](#output\_addon\_irsa) | The addon IRSA module outputs |
+| <a name="output_addon_irsa"></a> [addon\_irsa](#output\_addon\_irsa) | The IRSA addon module outputs |
 | <a name="output_cluster_issuer"></a> [cluster\_issuer](#output\_cluster\_issuer) | The cluster-issuer module outputs |
 ## Contributing and reporting issues
 

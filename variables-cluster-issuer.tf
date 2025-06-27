@@ -7,25 +7,25 @@ variable "cluster_issuer_helm_enabled" {
 variable "cluster_issuer_helm_chart_name" {
   type        = string
   default     = null
-  description = "Helm chart name to be installed. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
+  description = "Helm chart name to be installed. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_helm_chart_version" {
   type        = string
   default     = null
-  description = "Version of the Helm chart. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
+  description = "Version of the Helm chart. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_helm_release_name" {
   type        = string
   default     = null
-  description = "Helm release name. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
+  description = "Helm release name. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_helm_repo_url" {
   type        = string
   default     = null
-  description = "Helm repository. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
+  description = "Helm repository. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_helm_create_namespace" {
@@ -49,7 +49,7 @@ variable "cluster_issuer_values" {
 variable "cluster_issuer_argo_name" {
   type        = string
   default     = null
-  description = "Name of the ArgoCD Application. Required if `argo_source_type` is set to `kustomize` or `directory`.  If `argo_source_type` is set to `helm`, ArgoCD Application name will equal `helm_release_name`. Defaults to `null`."
+  description = "Name of the ArgoCD Application. Required if `cluster_issuer_argo_source_type` is set to `kustomize` or `directory`.  If `cluster_issuer_argo_source_type` is set to `helm`, ArgoCD Application name will equal `cluster_issuer_helm_release_name`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_argo_namespace" {
@@ -97,31 +97,31 @@ variable "cluster_issuer_argo_helm_wait_backoff_limit" {
 variable "cluster_issuer_argo_helm_wait_kubectl_version" {
   type        = string
   default     = null
-  description = "Version of kubectl to use for ArgoCD Application wait job. Defaults to `1.32.3`."
+  description = "Version of kubectl to use for ArgoCD Application wait job. Defaults to `1.33.0`."
 }
 
 variable "cluster_issuer_argo_source_type" {
   type        = string
   default     = null
-  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, or `directory`. Defaults to `helm`."
+  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, `directory` or `helm-directory`. Defaults to `helm`."
 }
 
 variable "cluster_issuer_argo_source_repo_url" {
   type        = string
   default     = null
-  description = "ArgoCD Application source repo URL. Required if `argo_source_type` is set to `kustomize` or `directory`. Defaults to `null`."
+  description = "ArgoCD Application source repo URL. Required if `cluster_issuer_argo_source_type` is set to `kustomize` or `directory`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_argo_source_target_revision" {
   type        = string
   default     = null
-  description = "ArgoCD Application source target revision. Required if `argo_source_type` is set to `kustomize` or `directory`. Defaults to `null`."
+  description = "ArgoCD Application source target revision. Required if `cluster_issuer_argo_source_type` is set to `kustomize` or `directory`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_argo_source_path" {
   type        = string
   default     = null
-  description = "ArgoCD Application source path. Required if `argo_source_type` is set to `kustomize` or `directory`. Defaults to `null`."
+  description = "ArgoCD Application source path. Required if `cluster_issuer_argo_source_type` is set to `kustomize` or `directory`. Defaults to `\"\"`."
 }
 
 variable "cluster_issuer_argo_destination_server" {
@@ -139,7 +139,7 @@ variable "cluster_issuer_argo_project" {
 variable "cluster_issuer_argo_info" {
   type        = list(any)
   default     = null
-  description = "ArgoCD Application manifest info parameter. Defaults to `[{\"name\": \"terraform\", \"value\": \"true\"}]`."
+  description = "ArgoCD Application manifest info parameter. Defaults to `[{ name = \"terraform\", value = \"true\" }]`."
 }
 
 variable "cluster_issuer_argo_sync_policy" {
@@ -151,7 +151,7 @@ variable "cluster_issuer_argo_sync_policy" {
 variable "cluster_issuer_argo_metadata" {
   type        = any
   default     = null
-  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters. Defaults to `{\"finalizers\": [\"resources-finalizer.argocd.argoproj.io\"]}`."
+  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters. Defaults to `{ finalizers = [\"resources-finalizer.argocd.argoproj.io\"] }`."
 }
 
 variable "cluster_issuer_argo_apiversion" {
@@ -187,7 +187,7 @@ variable "cluster_issuer_argo_helm_values" {
 variable "cluster_issuer_argo_kubernetes_manifest_computed_fields" {
   type        = list(string)
   default     = null
-  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply. Defaults to `[\"metadata.labels\", \"metadata.annotations\", \"metadata.finalizers\"]`."
+  description = "List of paths of fields to be handled as `computed`. The user-configured value for the field will be overridden by any different value returned by the API after apply. Defaults to `[\"metadata.labels\", \"metadata.annotations\", \"metadata.finalizers\"]`."
 }
 
 variable "cluster_issuer_argo_kubernetes_manifest_field_manager_name" {
@@ -325,7 +325,7 @@ variable "cluster_issuer_helm_wait_for_jobs" {
 variable "cluster_issuer_helm_skip_cluster_issuer" {
   type        = bool
   default     = null
-  description = "If set, no cluster_issuer will be installed before Helm release. Defaults to `false`."
+  description = "If set, no ClusterIssuer will be installed before Helm release. Defaults to `false`."
 }
 
 variable "cluster_issuer_helm_render_subchart_notes" {

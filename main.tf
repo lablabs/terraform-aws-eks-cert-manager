@@ -6,7 +6,6 @@
  * [![Terraform validate](https://github.com/lablabs/terraform-aws-eks-cert-manager/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-cert-manager/actions/workflows/validate.yaml)
  * [![pre-commit](https://github.com/lablabs/terraform-aws-eks-cert-manager/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-cert-manager/actions/workflows/pre-commit.yaml)
  */
-
 locals {
   addon = {
     name      = "cert-manager"
@@ -19,7 +18,7 @@ locals {
   addon_irsa = {
     (local.addon.name) = {
       irsa_policy_enabled = local.irsa_policy_enabled
-      irsa_policy         = var.irsa_policy != null ? var.irsa_policy : try(data.aws_iam_policy_document.this[0].json, "")
+      irsa_policy         = var.irsa_policy != null ? var.irsa_policy : jsonencode(local.irsa_policy)
     }
   }
 
@@ -60,5 +59,7 @@ locals {
 
   cluster_issuer_values = yamlencode({})
 
-  cluster_issuer_depends_on = [module.addon]
+  cluster_issuer_depends_on = [
+    module.addon
+  ]
 }

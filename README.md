@@ -46,24 +46,24 @@ See [basic example](examples/basic) for further information.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.8 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.6 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.20 |
+| <a name="requirement_lara-utils"></a> [lara-utils](#requirement\_lara-utils) | >= 0.1 |
 | <a name="requirement_utils"></a> [utils](#requirement\_utils) | >= 1 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.24 |
-| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v0.0.24 |
-| <a name="module_cluster-issuer"></a> [cluster-issuer](#module\_cluster-issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.24 |
+| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | feat/data-source-inline |
+| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | feat/data-source-inline |
+| <a name="module_cluster-issuer"></a> [cluster-issuer](#module\_cluster-issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | feat/data-source-inline |
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_iam_policy_document.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [utils_deep_merge_yaml.cluster_issuer_values](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) | data source |
 | [utils_deep_merge_yaml.values](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) | data source |
 > [!IMPORTANT]
@@ -72,6 +72,7 @@ See [basic example](examples/basic) for further information.
 
 | Name | Description | Type |
 |------|-------------|------|
+| <a name="input_addon_depends_on"></a> [addon\_depends\_on](#input\_addon\_depends\_on) | List of resources to wait for before installing the addon. Typically used to force a dependency on another addon. | `any` |
 | <a name="input_argo_apiversion"></a> [argo\_apiversion](#input\_argo\_apiversion) | ArgoCD Application apiVersion. Defaults to `argoproj.io/v1alpha1`. | `string` |
 | <a name="input_argo_destination_server"></a> [argo\_destination\_server](#input\_argo\_destination\_server) | Destination server for ArgoCD Application. Defaults to `https://kubernetes.default.svc`. | `string` |
 | <a name="input_argo_enabled"></a> [argo\_enabled](#input\_argo\_enabled) | If set to `true`, the module will be deployed as ArgoCD Application, otherwise it will be deployed as a Helm release. Defaults to `false`. | `bool` |
@@ -128,6 +129,7 @@ See [basic example](examples/basic) for further information.
 | <a name="input_cluster_issuer_argo_spec"></a> [cluster\_issuer\_argo\_spec](#input\_cluster\_issuer\_argo\_spec) | ArgoCD Application spec configuration. Configuration is extended by deep merging with the default spec parameters. Defaults to `{}`. | `any` |
 | <a name="input_cluster_issuer_argo_spec_override"></a> [cluster\_issuer\_argo\_spec\_override](#input\_cluster\_issuer\_argo\_spec\_override) | ArgoCD Application spec configuration. Configuration is overriden by merging natively with the default spec parameters. Defaults to `{}`. | `any` |
 | <a name="input_cluster_issuer_argo_sync_policy"></a> [cluster\_issuer\_argo\_sync\_policy](#input\_cluster\_issuer\_argo\_sync\_policy) | ArgoCD Application manifest syncPolicy parameter. Defaults to `{}`. | `any` |
+| <a name="input_cluster_issuer_depends_on"></a> [cluster\_issuer\_depends\_on](#input\_cluster\_issuer\_depends\_on) | List of resources to wait for before installing ClusterIssuer. Typically used to force a dependency on another addon. | `any` |
 | <a name="input_cluster_issuer_enabled"></a> [cluster\_issuer\_enabled](#input\_cluster\_issuer\_enabled) | Variable indicating whether default ClusterIssuer CRD is enabled | `bool` |
 | <a name="input_cluster_issuer_helm_atomic"></a> [cluster\_issuer\_helm\_atomic](#input\_cluster\_issuer\_helm\_atomic) | If set, installation process purges chart on fail. The wait flag will be set automatically if atomic is used. Defaults to `false`. | `bool` |
 | <a name="input_cluster_issuer_helm_chart_name"></a> [cluster\_issuer\_helm\_chart\_name](#input\_cluster\_issuer\_helm\_chart\_name) | Helm chart name to be installed. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `""`. | `string` |
@@ -166,7 +168,6 @@ See [basic example](examples/basic) for further information.
 | <a name="input_cluster_issuer_settings"></a> [cluster\_issuer\_settings](#input\_cluster\_issuer\_settings) | Additional Helm sets which will be passed to the Helm chart values or Kustomize or directory configuration which will be passed to ArgoCD Application source. Defaults to `{}`. | `map(any)` |
 | <a name="input_cluster_issuer_values"></a> [cluster\_issuer\_values](#input\_cluster\_issuer\_values) | Additional YAML encoded values which will be passed to the Helm chart. Defaults to `""`. | `string` |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the cluster (required for Pod Identity). Defaults to `""`. | `string` |
-| <a name="input_crds_enabled"></a> [crds\_enabled](#input\_crds\_enabled) | Set to false to prevent the module from creating CRD resources. | `bool` |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources. | `bool` |
 | <a name="input_helm_atomic"></a> [helm\_atomic](#input\_helm\_atomic) | If set, installation process purges chart on fail. The wait flag will be set automatically if atomic is used. Defaults to `false`. | `bool` |
 | <a name="input_helm_chart_name"></a> [helm\_chart\_name](#input\_helm\_chart\_name) | Helm chart name to be installed. Required if `argo_source_type` is set to `helm`. Defaults to `""`. | `string` |

@@ -1,3 +1,9 @@
+variable "cluster_issuer_enabled" {
+  type        = bool
+  default     = false
+  description = "Variable indicating whether default ClusterIssuer is enabled"
+}
+
 variable "cluster_issuer_helm_enabled" {
   type        = bool
   default     = null
@@ -374,4 +380,11 @@ variable "cluster_issuer_helm_postrender" {
   type        = map(any)
   default     = null
   description = "Value block with a path to a binary file to run after Helm renders the manifest which can alter the manifest contents. Defaults to `{}`."
+}
+
+variable "cluster_issuer_depends_on" {
+  type        = list(any)
+  default     = []
+  description = "List of resources to wait for before installing the ClusterIssuer. Typically used to force a dependency on another addon."
+  nullable    = false
 }

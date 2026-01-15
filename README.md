@@ -58,7 +58,7 @@ See [basic example](examples/basic) for further information.
 |------|--------|---------|
 | <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.25 |
 | <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v0.0.25 |
-| <a name="module_cluster-issuer"></a> [cluster-issuer](#module\_cluster-issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.24 |
+| <a name="module_cluster-issuer"></a> [cluster-issuer](#module\_cluster-issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.25 |
 ## Resources
 
 | Name | Type |
@@ -129,7 +129,8 @@ See [basic example](examples/basic) for further information.
 | <a name="input_cluster_issuer_argo_spec"></a> [cluster\_issuer\_argo\_spec](#input\_cluster\_issuer\_argo\_spec) | ArgoCD Application spec configuration. Configuration is extended by deep merging with the default spec parameters. Defaults to `{}`. | `any` |
 | <a name="input_cluster_issuer_argo_spec_override"></a> [cluster\_issuer\_argo\_spec\_override](#input\_cluster\_issuer\_argo\_spec\_override) | ArgoCD Application spec configuration. Configuration is overriden by merging natively with the default spec parameters. Defaults to `{}`. | `any` |
 | <a name="input_cluster_issuer_argo_sync_policy"></a> [cluster\_issuer\_argo\_sync\_policy](#input\_cluster\_issuer\_argo\_sync\_policy) | ArgoCD Application manifest syncPolicy parameter. Defaults to `{}`. | `any` |
-| <a name="input_cluster_issuer_enabled"></a> [cluster\_issuer\_enabled](#input\_cluster\_issuer\_enabled) | Variable indicating whether default ClusterIssuer CRD is enabled | `bool` |
+| <a name="input_cluster_issuer_depends_on"></a> [cluster\_issuer\_depends\_on](#input\_cluster\_issuer\_depends\_on) | List of resources to wait for before installing the ClusterIssuer. Typically used to force a dependency on another addon. | `list(any)` |
+| <a name="input_cluster_issuer_enabled"></a> [cluster\_issuer\_enabled](#input\_cluster\_issuer\_enabled) | Variable indicating whether default ClusterIssuer is enabled | `bool` |
 | <a name="input_cluster_issuer_helm_atomic"></a> [cluster\_issuer\_helm\_atomic](#input\_cluster\_issuer\_helm\_atomic) | If set, installation process purges chart on fail. The wait flag will be set automatically if atomic is used. Defaults to `false`. | `bool` |
 | <a name="input_cluster_issuer_helm_chart_name"></a> [cluster\_issuer\_helm\_chart\_name](#input\_cluster\_issuer\_helm\_chart\_name) | Helm chart name to be installed. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `""`. | `string` |
 | <a name="input_cluster_issuer_helm_chart_version"></a> [cluster\_issuer\_helm\_chart\_version](#input\_cluster\_issuer\_helm\_chart\_version) | Version of the Helm chart. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `""`. | `string` |

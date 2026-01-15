@@ -5,12 +5,6 @@ variable "crds_enabled" {
   description = "Set to false to prevent the module from creating CRD resources."
 }
 
-variable "cluster_issuer_enabled" {
-  type        = bool
-  default     = false
-  description = "Variable indicating whether default ClusterIssuer CRD is enabled"
-}
-
 variable "policy_allowed_zone_ids" {
   type        = list(string)
   default     = ["*"]

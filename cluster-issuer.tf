@@ -11,7 +11,7 @@ locals {
 }
 
 module "cluster-issuer" {
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.24"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.25"
 
   enabled = local.cluster_issuer_enabled
 
@@ -86,7 +86,8 @@ module "cluster-issuer" {
   values   = one(data.utils_deep_merge_yaml.cluster_issuer_values[*].output)
 
   depends_on = [
-    local.cluster_issuer_depends_on
+    local.cluster_issuer_depends_on,
+    var.cluster_issuer_depends_on
   ]
 }
 

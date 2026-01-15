@@ -72,7 +72,7 @@ See [basic example](examples/basic) for further information.
 
 | Name | Description | Type |
 |------|-------------|------|
-| <a name="input_addon_depends_on"></a> [addon\_depends\_on](#input\_addon\_depends\_on) | List of resources to wait for before installing the addon. Typically used to force a dependency on another addon. | `list(any)` |
+| <a name="input_addon_depends_on"></a> [addon\_depends\_on](#input\_addon\_depends\_on) | List of resources to wait for before installing the addon. Typically used to force a dependency on another addon. | `any` |
 | <a name="input_argo_apiversion"></a> [argo\_apiversion](#input\_argo\_apiversion) | ArgoCD Application apiVersion. Defaults to `argoproj.io/v1alpha1`. | `string` |
 | <a name="input_argo_destination_server"></a> [argo\_destination\_server](#input\_argo\_destination\_server) | Destination server for ArgoCD Application. Defaults to `https://kubernetes.default.svc`. | `string` |
 | <a name="input_argo_enabled"></a> [argo\_enabled](#input\_argo\_enabled) | If set to `true`, the module will be deployed as ArgoCD Application, otherwise it will be deployed as a Helm release. Defaults to `false`. | `bool` |
@@ -129,7 +129,7 @@ See [basic example](examples/basic) for further information.
 | <a name="input_cluster_issuer_argo_spec"></a> [cluster\_issuer\_argo\_spec](#input\_cluster\_issuer\_argo\_spec) | ArgoCD Application spec configuration. Configuration is extended by deep merging with the default spec parameters. Defaults to `{}`. | `any` |
 | <a name="input_cluster_issuer_argo_spec_override"></a> [cluster\_issuer\_argo\_spec\_override](#input\_cluster\_issuer\_argo\_spec\_override) | ArgoCD Application spec configuration. Configuration is overriden by merging natively with the default spec parameters. Defaults to `{}`. | `any` |
 | <a name="input_cluster_issuer_argo_sync_policy"></a> [cluster\_issuer\_argo\_sync\_policy](#input\_cluster\_issuer\_argo\_sync\_policy) | ArgoCD Application manifest syncPolicy parameter. Defaults to `{}`. | `any` |
-| <a name="input_cluster_issuer_depends_on"></a> [cluster\_issuer\_depends\_on](#input\_cluster\_issuer\_depends\_on) | List of resources to wait for before installing the ClusterIssuer. Typically used to force a dependency on another addon. | `list(any)` |
+| <a name="input_cluster_issuer_depends_on"></a> [cluster\_issuer\_depends\_on](#input\_cluster\_issuer\_depends\_on) | List of resources to wait for before installing the ClusterIssuer. Typically used to force a dependency on another addon. | `any` |
 | <a name="input_cluster_issuer_enabled"></a> [cluster\_issuer\_enabled](#input\_cluster\_issuer\_enabled) | Variable indicating whether default ClusterIssuer is enabled | `bool` |
 | <a name="input_cluster_issuer_helm_atomic"></a> [cluster\_issuer\_helm\_atomic](#input\_cluster\_issuer\_helm\_atomic) | If set, installation process purges chart on fail. The wait flag will be set automatically if atomic is used. Defaults to `false`. | `bool` |
 | <a name="input_cluster_issuer_helm_chart_name"></a> [cluster\_issuer\_helm\_chart\_name](#input\_cluster\_issuer\_helm\_chart\_name) | Helm chart name to be installed. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `""`. | `string` |

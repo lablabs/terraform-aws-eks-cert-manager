@@ -383,8 +383,7 @@ variable "cluster_issuer_helm_postrender" {
 }
 
 variable "cluster_issuer_depends_on" {
-  type        = list(any)
-  default     = []
+  type        = any
+  default     = null
   description = "List of resources to wait for before installing the ClusterIssuer. Typically used to force a dependency on another addon."
-  nullable    = false
 }

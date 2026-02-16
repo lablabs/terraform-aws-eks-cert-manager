@@ -58,7 +58,7 @@ See [basic example](examples/basic) for further information.
 |------|--------|---------|
 | <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v1.0.0-rc1 |
 | <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v1.0.0-rc1 |
-| <a name="module_cluster-issuer"></a> [cluster-issuer](#module\_cluster-issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.25 |
+| <a name="module_cluster-issuer"></a> [cluster-issuer](#module\_cluster-issuer) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v1.0.0-rc1 |
 ## Resources
 
 | Name | Type |
@@ -146,7 +146,7 @@ See [basic example](examples/basic) for further information.
 | <a name="input_cluster_issuer_helm_keyring"></a> [cluster\_issuer\_helm\_keyring](#input\_cluster\_issuer\_helm\_keyring) | Location of public keys used for verification. Used only if `helm_package_verify` is `true`. Defaults to `~/.gnupg/pubring.gpg`. | `string` |
 | <a name="input_cluster_issuer_helm_lint"></a> [cluster\_issuer\_helm\_lint](#input\_cluster\_issuer\_helm\_lint) | Run the Helm chart linter during the plan. Defaults to `false`. | `bool` |
 | <a name="input_cluster_issuer_helm_package_verify"></a> [cluster\_issuer\_helm\_package\_verify](#input\_cluster\_issuer\_helm\_package\_verify) | Verify the package before installing it. Helm uses a provenance file to verify the integrity of the chart; this must be hosted alongside the chart. Defaults to `false`. | `bool` |
-| <a name="input_cluster_issuer_helm_postrender"></a> [cluster\_issuer\_helm\_postrender](#input\_cluster\_issuer\_helm\_postrender) | Value block with a path to a binary file to run after Helm renders the manifest which can alter the manifest contents. Defaults to `{}`. | `map(any)` |
+| <a name="input_cluster_issuer_helm_postrender"></a> [cluster\_issuer\_helm\_postrender](#input\_cluster\_issuer\_helm\_postrender) | Value block with a path to a binary file to run after Helm renders the manifest which can alter the manifest contents. | <pre>object({<br/>    binary_path = string<br/>    args        = optional(list(string))<br/>  })</pre> |
 | <a name="input_cluster_issuer_helm_recreate_pods"></a> [cluster\_issuer\_helm\_recreate\_pods](#input\_cluster\_issuer\_helm\_recreate\_pods) | Perform pods restart during Helm upgrade/rollback. Defaults to `false`. | `bool` |
 | <a name="input_cluster_issuer_helm_release_max_history"></a> [cluster\_issuer\_helm\_release\_max\_history](#input\_cluster\_issuer\_helm\_release\_max\_history) | Maximum number of release versions stored per release. Defaults to `0`. | `number` |
 | <a name="input_cluster_issuer_helm_release_name"></a> [cluster\_issuer\_helm\_release\_name](#input\_cluster\_issuer\_helm\_release\_name) | Helm release name. Required if `cluster_issuer_argo_source_type` is set to `helm`. Defaults to `""`. | `string` |

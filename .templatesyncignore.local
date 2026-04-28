@@ -1,7 +1,6 @@
 cluster-issuer.tf
 helm/
 iam.tf
-migrations.tf
 variables-cluster-issuer.tf
 addon-oidc.tf
 variables-addon-oidc.tf

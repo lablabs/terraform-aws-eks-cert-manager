@@ -105,13 +105,13 @@ variable "argo_helm_wait_backoff_limit" {
 variable "argo_helm_wait_kubectl_version" {
   type        = string
   default     = null
-  description = "Version of kubectl to use for ArgoCD Application wait job. Defaults to `1.33.0`."
+  description = "Version of kubectl to use for ArgoCD Application wait job. Defaults to `1.35.0`."
 }
 
 variable "argo_source_type" {
   type        = string
   default     = null
-  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, or `directory`. Defaults to `helm`."
+  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, `directory` or `helm-directory`. Defaults to `helm`."
 }
 
 variable "argo_source_repo_url" {
@@ -195,7 +195,7 @@ variable "argo_helm_values" {
 variable "argo_kubernetes_manifest_computed_fields" {
   type        = list(string)
   default     = null
-  description = "List of paths of fields to be handled as \\computed\\. The user-configured value for the field will be overridden by any different value returned by the API after apply. Defaults to `[\"metadata.labels\", \"metadata.annotations\", \"metadata.finalizers\"]`."
+  description = "List of paths of fields to be handled as `computed`. The user-configured value for the field will be overridden by any different value returned by the API after apply. Defaults to `[\"metadata.labels\", \"metadata.annotations\", \"metadata.finalizers\"]`."
 }
 
 variable "argo_kubernetes_manifest_field_manager_name" {
@@ -261,7 +261,7 @@ variable "helm_package_verify" {
 variable "helm_keyring" {
   type        = string
   default     = null
-  description = "Location of public keys used for verification. Used only if `helm_package_verify` is `true`. Defaults to `~/.gnupg/pubring.gpg`."
+  description = "Location of public keys used for verification. Used only when `helm_package_verify` is `true`. Defaults to `~/.gnupg/pubring.gpg`."
 }
 
 variable "helm_timeout" {
@@ -379,7 +379,10 @@ variable "helm_set_sensitive" {
 }
 
 variable "helm_postrender" {
-  type        = map(any)
+  type = object({
+    binary_path = string
+    args        = optional(list(string))
+  })
   default     = null
-  description = "Value block with a path to a binary file to run after Helm renders the manifest which can alter the manifest contents. Defaults to `{}`."
+  description = "Value block with a path to a binary file to run after Helm renders the manifest which can alter the manifest contents. Defaults to `null`."
 }

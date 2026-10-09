@@ -4,6 +4,7 @@ fullnameOverride: ""
 commonLabels: {}
 
 route53:
+  cnameStrategy: "None"
   default:
     acme:
       server: https://acme-v02.api.letsencrypt.org/directory

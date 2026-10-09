@@ -18,6 +18,7 @@ spec:
     {{- toYaml .clusterIssuerValues.acme | nindent 4 }}
     solvers:
       - dns01:
+          {{- toYaml .clusterIssuerValues.cnameStrategy }}
           route53:
             {{- if .clusterIssuerValues.region }}
             region: {{ .clusterIssuerValues.region }}

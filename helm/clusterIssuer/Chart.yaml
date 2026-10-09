@@ -10,5 +10,6 @@ keywords:
 sources:
   - https://github.com/lablabs/terraform-aws-eks-aws-cert-manager/blob/master/helm/clusterIssuer/values.yaml
 maintainers:
-  - name: dojci
-    email: martin.dojcak@lablabs.io
+  - name: Labyrinth Labs
+    email: contact@lablabs.io
+    url: https://lablabs.io

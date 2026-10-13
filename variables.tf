@@ -13,7 +13,7 @@ variable "policy_allowed_zone_ids" {
 
 variable "manifest_target_revision" {
   type        = string
-  default     = "v2.1.1" #FIXME: update revision before release
+  default     = "v5.1.0" #FIXME: update revision before release
   description = "Manifest target revision to deploy from"
 }
 

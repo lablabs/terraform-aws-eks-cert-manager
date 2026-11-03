@@ -83,21 +83,15 @@ module "cluster-issuer" {
   argo_operation                                         = var.cluster_issuer_argo_operation != null ? var.cluster_issuer_argo_operation : lookup(local.cluster_issuer, "argo_operation", null)
 
   settings = var.cluster_issuer_settings != null ? var.cluster_issuer_settings : lookup(local.cluster_issuer, "settings", null)
-  values   = one(data.utils_deep_merge_yaml.cluster_issuer_values[*].output)
+  values = local.cluster_issuer_enabled ? provider::lara-utils::yaml_deep_merge(compact([
+    local.cluster_issuer_values,
+    var.cluster_issuer_values
+  ])) : null
 
   depends_on = [
     local.cluster_issuer_depends_on,
     var.cluster_issuer_depends_on
   ]
-}
-
-data "utils_deep_merge_yaml" "cluster_issuer_values" {
-  count = local.cluster_issuer_enabled ? 1 : 0
-
-  input = compact([
-    local.cluster_issuer_values,
-    var.cluster_issuer_values
-  ])
 }
 
 output "cluster_issuer" {

@@ -12,7 +12,7 @@ locals {
     name      = "cert-manager"
     namespace = "kube-system"
 
-    helm_chart_version = "1.17.1"
+    helm_chart_version = "1.21.3" # 1.21.3
     helm_repo_url      = "https://charts.jetstack.io"
   }
 
